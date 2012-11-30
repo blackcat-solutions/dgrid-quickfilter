@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Test Quick Filters</title>
+
+    <style type="text/css">
+        @import "../../dojo/resources/dojo.css";
+    </style>
+
+    <script>
+        var dojoConfig = {
+            async: true,
+            isDebug: true,
+            aliases: [
+                ["domReady", "dojo/domReady"]
+            ]
+        };
+    </script>
+    <script src="../../dojo/dojo.js"></script>
+    <script>
+        require([
+            "dojo/_base/declare",
+            "dgrid/Grid",
+            "dgrid/ColumnSet",
+            "dgrid-quickfilter/_QuickFilterMixin",
+            "doh/runner",
+            "dojo/dom",
+            "dojo/dom-construct",
+            "dijit/dijit",
+            "dojo/dom-class",
+            "dojo/query",
+            "dojo/_base/array" ,
+            "dojo/date/locale" ,
+            "dojo/_base/lang",
+            "dojo/on",
+
+            "domReady!"
+        ],
+                function (declare, Grid, ColumnSet, _GroupHeaders2, doh, dom, domConstruct, dijit, domClass, query, array, locale, lang, on) {
+
+                    var nodeWidget = domConstruct.create('div', {'id': 'testWidget'}),
+                            MyGrid = declare([Grid, _GroupHeaders2]),
+                            MyGrid2 = declare([Grid, ColumnSet, _GroupHeaders2]),
+                            table1, table2;
+
+                    table1 = new MyGrid({
+                                groupHeaders: [
+                                    {label: '', empty: true},
+                                    {label: 'Demand', colspan: 2},
+                                    {label: 'Other', colspan: 3}
+                                ],
+                                columns: [
+                                    {
+                                        field: 'action',
+                                        label: '!',
+                                        sortable: false
+                                    },
+                                    {
+                                        field: 'demandWeek',
+                                        label: 'Dmd. week'
+                                    },
+                                    {
+                                        field: 'demand',
+                                        label: 'Dmd.'
+                                    },
+                                    {
+                                        field: 'part',
+                                        label: 'Part'
+                                    },
+                                    {
+                                        field: 'description',
+                                        label: 'Description'
+                                    },
+                                    {
+                                        field: 'mrpElement',
+                                        label: 'Element'
+                                    }
+                                ]
+                            }
+                            , dom.byId('table1'));
+
+                    table2 = new MyGrid2({
+                                groupHeaderSets: [
+                                    [
+                                        {label: '', empty: true}
+                                    ],
+                                    [
+                                        {label: 'Demand', colspan: 2},
+                                        {label: 'Other', colspan: 3}
+                                    ]
+                                ],
+                                columnSets: [
+                                    [
+                                        [
+                                            {
+                                                field: 'action',
+                                                label: '!',
+                                                sortable: false
+                                            }
+                                        ]
+                                    ],
+                                    [
+                                        [
+                                            {
+                                                field: 'demandWeek',
+                                                label: 'Dmd. week'
+                                            },
+                                            {
+                                                field: 'demand',
+                                                label: 'Dmd.'
+                                            },
+                                            {
+                                                field: 'part',
+                                                label: 'Part'
+                                            },
+                                            {
+                                                field: 'description',
+                                                label: 'Description'
+                                            },
+                                            {
+                                                field: 'mrpElement',
+                                                label: 'Element'
+                                            }
+                                        ]
+                                    ]
+                                ]
+                            }
+                            , dom.byId('table2'));
+
+                    table1.startup();
+                    table1.renderArray([
+                        {
+                            action: 'foo',
+                            demandWeek: 'bar',
+                            demand: 'foo',
+                            part: 'bar',
+                            description: 'goynz',
+                            mrpElement: 'asd'
+                        }
+                    ]);
+
+                    table2.startup();
+                    table2.renderArray([
+                        {
+                            action: 'foo',
+                            demandWeek: 'bar',
+                            demand: 'foo',
+                            part: 'bar',
+                            description: 'goynz',
+                            mrpElement: 'asd'
+                        }
+                    ]);
+
+                }
+        );
+
+    </script>
+
+</head>
+<body class="tundra">
+<h1>Group Header Tests</h1>
+
+<div id="buttons"></div>
+
+<h2>Regular columns</h2>
+
+<div id="table1" style="border: #9099A4 1px solid; width: 1600px; height: 300px;"></div>
+
+<h2>Column sets</h2>
+
+<div id="table2" style="border: #9099A4 1px solid; width: 1600px; height: 300px;"></div>
+
+</body>
+</html>
